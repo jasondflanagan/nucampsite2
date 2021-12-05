@@ -6,11 +6,9 @@ import { baseUrl } from '../shared/baseUrl';
 
 function RenderCard({ item, isLoading, errMess }) {
     if (isLoading) {
-        console.log("rendercard is loading")
         return <Loading />
     }
     if (errMess) {
-        console.log("errMess is loading")
         return <h4>{errMess}</h4>
     }
     return (
@@ -24,7 +22,6 @@ function RenderCard({ item, isLoading, errMess }) {
     )
 }
 function Home(props) {
-    console.log("starting home component")
     return (
         <div className="container">
             <div className="row">
