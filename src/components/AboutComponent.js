@@ -1,35 +1,63 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
 import { Link } from 'react-router-dom';
+import { Fade, Stagger } from 'react-animation-components';
 
-function RenderPartner({partner}){
-    if(partner){
-    return(
-        <React.Fragment>
-            <Media object src={partner.image} alt={partner.name} width="150"/>
-            <Media body className="ml-5 mb-4">
-                <Media heading>{partner.name}
+function PartnerList(props) {
+    const partners = props.partners.partners.map(partner => {
+        return (
+                <Media tag="li" key={partner.id}>
+                    <RenderPartner partner={partner} />
                 </Media>
-                {partner.description}
+        )
+    })
+    if (partners.isLoading) {
+        console.log("parters loading")
+        return (
+            <Loading />
+        )
+    }
+    if (partners.errMess) {
+        console.log("error message")
+        return (
+            <div className="col">
+                <h4>{partners.errMess}</h4>
+            </div>
+        )
+    }
+    return (
+        <div classname="col mt-4">
+            <Media list>
+            {partners}
             </Media>
-        </React.Fragment>
+        </div>
     )
-    }
-    else{
-        return <div/>
-    }
-
 }
 
-function About(props) {
-
-    const partners = props.partners.map(partner => {
+function RenderPartner({ partner }) {
+    if (partner) {
+        console.log("renderpartner function")
         return (
-           <Media tag="li" key={partner.id}>
-               <RenderPartner partner={partner} />
-           </Media>
-        );
-    });
+            <React.Fragment>
+                <Media object="true" src={baseUrl + partner.image} alt={partner.name} width="150" />
+                <Media body="true" className="ml-5 mb-4">
+                    <Media heading="true">
+                        {partner.name}
+                    </Media>
+                    {partner.description}
+                </Media>
+            </React.Fragment>
+        )
+    }
+    else {
+        return (
+            <div />
+        )
+    }
+}
+function About(props) {
 
     return (
         <div className="container">
@@ -72,7 +100,7 @@ function About(props) {
                                 <p className="mb-0">I will not follow where the path may lead, but I will go where there is no path, and I will leave a trail.</p>
                                 <footer className="blockquote-footer">Muriel Strode,{' '}
                                     <cite title="Source Title">"Wind-Wafted Wild Flowers" -
-                                    The Open Court, 1903</cite>
+                                        The Open Court, 1903</cite>
                                 </footer>
                             </blockquote>
                         </CardBody>
@@ -82,15 +110,15 @@ function About(props) {
             <div className="row row-content">
                 <div className="col-12">
                     <h3>Community Partners</h3>
-                </div>
-                <div className="col mt-4">
-                    <Media list>
-                        {partners}
-                    </Media>
+             
+                    <Fade in>   
+                    <Stagger in>             
+                <PartnerList partners={props.partners} />
+          
+                </Stagger>      </Fade>
                 </div>
             </div>
         </div>
-    );
+    )
 }
-
 export default About;
