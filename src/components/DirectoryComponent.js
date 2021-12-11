@@ -3,6 +3,7 @@ import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } 
 import { Link } from 'react-router-dom';
 import {Loading} from './LoadingComponent';
 import {baseUrl} from '../shared/baseUrl';
+import { Fade } from 'react-animation-components';
 
 function RenderDirectoryItem({ campsite }) {
 
@@ -25,9 +26,13 @@ function Directory(props) {
     const directory = props.campsites.campsites.map(campsite => {
         return (
             <div key={campsite.id} className="col-md-5 m-1">
+                
+                    <Fade in>
                 <RenderDirectoryItem campsite={campsite} />
+                    </Fade>
             </div>
         )
+
     })
     if(props.campsites.isLoading){
         return(
